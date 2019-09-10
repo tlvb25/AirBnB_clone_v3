@@ -79,8 +79,9 @@ class DBStorage:
         """ method to retrieve one object"""
         for key in classes:
             if cls is classes[key] or cls is key:
-                return self.__session.query(classes[key]).filter
-                (classes[key].id == id).all()
+                claz =self.__session.query(classes[key]).filter
+                (classes[key].id == id).first()
+                return claz
         return None
 
     def count(self, cls=None):
