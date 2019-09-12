@@ -10,9 +10,9 @@ def all_states():
     return jsonify(all_states)
 
 @app_views.route('/states/<state_id>', methods=['GET'])
-def a_state(state_id):
+def get_a_state(state_id):
     """retrieves state by state id"""
-    obj = get("State", state_id)
+    obj = storage.get("State", state_id)
     if obj is None:
         abort(404)
     return jsonify(all_states)
