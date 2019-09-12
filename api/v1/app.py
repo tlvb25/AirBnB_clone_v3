@@ -12,6 +12,7 @@ app.register_blueprint(app_views)
 
 
 @app.teardown_appcontext
+"""close flask app"""
 def tear_down():
     """ close method"""
     storage.close()
