@@ -5,7 +5,7 @@ from models import storage
 
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
-def all_states():
+def get_all_states():
     all_states = [obj.to_dict() for obj in storage.all("State").values()]
     return jsonify(all_states)
 
@@ -29,7 +29,7 @@ def del_obj(state_id):
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def create_State():
-    if not request.get_json:
+    if not request.get_json():
         return jsonify({'error': 'Not a JSON'}), 400
     if 'name' not in request.get_json():
         return jsonify({'error': 'Missing name'}), 400
