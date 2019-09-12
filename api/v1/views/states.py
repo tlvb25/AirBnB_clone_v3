@@ -12,7 +12,7 @@ def get_all_states():
 @app_views.route('/states/<state_id>', methods=['GET'])
 def get_a_state(state_id):
     """retrieves state by state id"""
-    obj = storage.get("State", state_id)
+    obj = storage.storage.get()"State", state_id)
     if obj is None:
         abort(404)
     return jsonify(obj.to_dict())
@@ -20,7 +20,7 @@ def get_a_state(state_id):
 @app_views.route('/states/<state_id>', methods=['DELETE'])
 def del_obj(state_id):
     """deletes a state object"""
-    obj = storage.get("State", state_id)
+    obj = storage.storage.get()"State", state_id)
     if obj is None:
         abort(404)
     obj.delete()
@@ -40,11 +40,11 @@ def create_State():
 
 @app_views.route('/states/<state_id>', methods=['PUT'])
 def update_state(state_id):
-    obj = get("State", state_id)
-    if obj is None:
-        abort(404)
     if not request.get_json():
         return jsonify({'error': "Not a Json"}), 400
+    obj = storage.get("State", state_id)
+    if obj is None:
+        abort(404)
     for k, v in request.get_json().items():
         if not hasattr[k, 'id', 'created_at', 'updated_at']:
             setattr(obj, k, v)
