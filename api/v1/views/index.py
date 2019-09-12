@@ -10,7 +10,7 @@ def j_status():
     """ returns the json string status ok"""
     return jsonify({"status": "OK"})
 
-@app_views.route('/api/v1/stats')
+@app_views.route('/stats')
 def j_stats():
     """ returns the json string stats ok"""
     stats_dict = {"amenities": storage.count("Amenity"),
