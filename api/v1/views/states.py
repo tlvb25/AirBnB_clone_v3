@@ -6,6 +6,7 @@ from models import storage
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 def get_all_states():
+    """retrieves all state obj"""
     all_states = [obj.to_dict() for obj in storage.all("State").values()]
     return jsonify(all_states)
 
@@ -29,6 +30,7 @@ def del_obj(state_id):
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def create_State():
+    """create a state obj"""
     if not request.get_json():
         return jsonify({'error': 'Not a JSON'}), 400
     if 'name' not in request.get_json():
@@ -40,6 +42,7 @@ def create_State():
 
 @app_views.route('/states/<state_id>', methods=['PUT'])
 def update_state(state_id):
+    """updates state object"""
     if not request.get_json():
         return jsonify({'error': "Not a Json"}), 400
     obj = storage.get("State", state_id)
