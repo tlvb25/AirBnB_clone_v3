@@ -15,7 +15,7 @@ def j_status():
 def stats():
     """Stats of api"""
     j_stats = {"amenities": storage.count("Amenity"),
-	       "cities": storage.count("City"),
+               "cities": storage.count("City"),
                "places": storage.count("Place"),
                "reviews": storage.count("Review"),
                "states": storage.count("State"),
