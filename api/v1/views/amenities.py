@@ -12,6 +12,7 @@ def get_all_amenities():
     all_amenities = [obj.to_dict() for obj in storage.all("Amenity").values()]
     return jsonify(all_amenities)
 
+
 @app_views.route('/amenities/<amenity_id>', methods=['GET'])
 def get_an_amenity(amenity_id):
     """retrieves amenity by id"""
@@ -19,6 +20,7 @@ def get_an_amenity(amenity_id):
     if obj is None:
         abort(404)
     return jsonify(obj.to_dict())
+
 
 @app_views.route('/amenities/<amenity_id>', methods=['DELETE'])
 def del_obj(amenity_id):
@@ -29,6 +31,7 @@ def del_obj(amenity_id):
     obj.delete()
     storage.save()
     return jsonify({})
+
 
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
 def create_Amenity():
@@ -41,6 +44,7 @@ def create_Amenity():
     obj = Amenity(**dic)
     obj.save()
     return jsonify(obj.to_dict()), 201
+
 
 @app_views.route('/amenities/<amenity_id>', methods=['PUT'])
 def update_amenity(amenity_id):
