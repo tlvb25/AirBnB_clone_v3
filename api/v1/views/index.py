@@ -12,11 +12,11 @@ def j_status():
 @app_views.route('/api/v1/stats')
 def j_stats():
     stats_dict = {
-        "amenities": storage.count("Amenity"), 
-        "cities": storage.count("Cities"), 
-        "places": storage.count("Places"), 
-        "reviews": storage.count("Reviews"), 
-        "states": storage.count("States"), 
+        "amenities": storage.count("Amenity"),
+        "cities": storage.count("Cities"),
+        "places": storage.count("Places"),
+        "reviews": storage.count("Reviews"),
+        "states": storage.count("States"),
         "users": storage.count("Users")
     }
     return jsonify(stats_dict)
