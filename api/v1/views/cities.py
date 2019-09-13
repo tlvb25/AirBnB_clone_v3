@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """City views """
 from models.city import City
+from models.state import State
 from flask import jsonify, abort, request, Flask
 from api.v1.views import app_views
 from models import storage
@@ -56,11 +57,11 @@ def update_city(city_id):
     """Updates a city object"""
     if not request.get_json():
         return jsonify({'error': 'Not a JSON'}), 400
-    obj = storage.get("City", city_id)
-    if obj is None:
+    city_obj = storage.get("City", city_id)
+    if city_obj is None:
         abort(404)
     for k, v in request.get_json().items():
         if k not in ['id', 'created_at', 'updated_at']:
             setattr(obj, k, v)
     storage.save()
-    return jsonify(obj.to_dict())
+    return jsonify(city_obj.to_dict())
