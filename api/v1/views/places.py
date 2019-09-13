@@ -6,17 +6,16 @@ from models import storage
 from models.state import State
 from models.city import City
 from models.place import Place
-from models.user import User
 
 
 @app_views.route('/states/places/<city_id>/places', methods=['GET'],
                  strict_slashes=False)
-def get_place(city_id):
+def get_a_place(city_id):
     """Retrieve all places"""
     places = storage.get("City", city_id)
     if places is None:
         abort(404)
-    place_obj = places.places
+    place_obj = city.places
     place_list = []
     for place in place_obj:
         place_list.append(place.to_dict())
