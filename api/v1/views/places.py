@@ -45,7 +45,7 @@ def delete_place(place_id):
 
 @app_views.route('/cities/<city_id>/places', methods=['POST'],
                  strict_slashes=False)
-def create_city(state_id):
+def create_city(city_id):
     """Create a Place"""
     cities = storage.get("City", city_id)
     if cities is None:
@@ -61,15 +61,17 @@ def create_city(state_id):
     user = storage.get("User", user_id)
     if user is None:
         abort(404)
-    place_obj = City(name=name, city_id=city_id, user_id=user_id)
+    place_obj = Place(name=name, city_id=city_id, user_id=user_id)
     place_obj.save()
     return jsonify(place_obj.to_dict()), 201
 
 
-@app_views.route('/places/<city_id>', methods=['PUT'])
-def update_city(city_id):
+@app_views.route('/places/<place_id>', methods=['PUT'])
+def update_city(place_id):
     """Updates a city"""
-    place_obj = storage.get("Place", city_id)
+    if not request.get_json():
+        return jsonify({'error': 'Not a JSON'}), 400
+    place_obj = storage.get("Place", place_id)
     if place_obj is None:
         abort(404)
     for k, v in request.get_json().items():
