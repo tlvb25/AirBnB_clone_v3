@@ -8,7 +8,7 @@ from models import storage
 
 
 @app_views.route('/states/<state_id>/cities', methods=['GET'],
-                strict_slashes=False)
+                 strict_slashes=False)
 def get_all_cities(state_id):
     """retrieves all cities of a state"""
     obj = storage.get("State", state_id)
@@ -45,6 +45,9 @@ def delete_city(city_id):
                  strict_slashes=False)
 def creates_city(state_id):
     """creates a city obj"""
+    states = storage.get("State", state_id)
+    if states is None:
+        abort(404)
     if not request.get_json():
         return jsonify({'error': 'Not a JSON'}), 400
     if 'name' not in request.get_json():
@@ -65,6 +68,6 @@ def update_city(city_id):
         abort(404)
     for k, v in request.get_json().items():
         if k not in ['id', 'created_at', 'updated_at']:
-            setattr(obj, k, v)
+            setattr(city_obj, k, v)
     storage.save()
     return jsonify(city_obj.to_dict())
