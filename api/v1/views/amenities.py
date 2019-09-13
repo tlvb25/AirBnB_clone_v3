@@ -7,28 +7,28 @@ from models.amenity import Amenity
 
 
 @app_views.route('/amenities', methods=['GET'], strict_slashes=False)
-def get_amenity():
+def get_all():
     """Retrieve all amenity objects"""
-    l = [obj.to_dict() for obj in storage.all("Amenity").values()]
-    return jsonify(l)
+    amen_list = [obj.to_dict() for obj in storage.all("Amenity").values()]
+    return jsonify(amen_list)
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['GET'])
-def get_amenity_by_id(amenity_id):
+def get_amenty(amenity_id):
     """Retrieve an amenity object by id"""
-    obj = storage.get("Amenity", amenity_id)
-    if obj is None:
+    amen_obj = storage.get("Amenity", amenity_id)
+    if amen_obj is None:
         abort(404)
-    return jsonify(obj.to_dict())
+    return jsonify(amen_obj.to_dict())
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['DELETE'])
-def delete_amenity(amenity_id):
+def delete_a_amenity(amenity_id):
     """Delete an amenity object by id"""
-    obj = storage.get("Amenity", amenity_id)
-    if obj is None:
+    amen_obj = storage.get("Amenity", amenity_id)
+    if amen_obj is None:
         abort(404)
-    obj.delete()
+    amen_obj.delete()
     storage.save()
     storage.reload()
     return jsonify({})
@@ -42,9 +42,9 @@ def create_amenity():
     if 'name' not in request.get_json():
         return jsonify({'error': 'Missing name'}), 400
     name = request.get_json().get('name')
-    obj = Amenity(name=name)
-    obj.save()
-    return jsonify(obj.to_dict()), 201
+    amen_obj = Amenity(name=name)
+    amen_obj.save()
+    return jsonify(amen_obj.to_dict()), 201
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['PUT'])
@@ -52,12 +52,11 @@ def update_amenity(amenity_id):
     """Updates an amenity object"""
     if not request.get_json():
         return jsonify({'error': 'Not a JSON'}), 400
-    obj = storage.get("Amenity", amenity_id)
-    if obj is None:
+    amen_obj = storage.get("Amenity", amenity_id)
+    if amen_obj is None:
         abort(404)
     for k, v in request.get_json().items():
         if k not in ['id', 'created_at', 'updated_at']:
-            setattr(obj, k, v)
+            setattr(amen_obj, k, v)
     storage.save()
-    return jsonify(obj.to_dict())
-    
+    return jsonify(amen_obj.to_dict())
